@@ -3,6 +3,8 @@ kind: StatefulSet
 metadata:
   name: phone-book-set-0
   namespace: phone-book-namespace
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   selector:
     matchLabels:
