@@ -11,7 +11,7 @@ spec:
       app: phone-book
   serviceName: "phone-book"
   replicas: 1
-  minReadySeconds: 10
+  minReadySeconds: 60
   template:
     metadata:
       labels:
