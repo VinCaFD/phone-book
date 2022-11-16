@@ -20,13 +20,22 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: phone-book
-        image: vincafd/phone-book:v1
+        image: vincafd/phone-book:v2
         ports:
         - containerPort: 8888
           name: web
         volumeMounts:
         - name: data
           mountPath: /mnt/data
+        readinessProbe:
+          httpGet:
+            path: /api/v1/phonebook?from=100&to=200
+            port: 8888
+          initialDelaySeconds: 15
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 1
   volumeClaimTemplates:
   - metadata:
       name: data
