@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: phone-book
-        image: vincafd/phone-book:v2
+        image: vincafd/phone-book:v1
         ports:
         - containerPort: 8888
           name: web
