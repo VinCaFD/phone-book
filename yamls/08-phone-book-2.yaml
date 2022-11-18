@@ -10,7 +10,7 @@ spec:
   ports:
     - name: phone-book-port
       port: 8888
-      nodePort: 30888
+      nodePort: 30887
       targetPort: 8888
   selector:
     app: phone-book-2
