@@ -1,0 +1,112 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: phone-book-2
+  name: phone-book-service-2
+  namespace: phone-book-namespace
+spec:
+  type: NodePort
+  ports:
+    - name: phone-book-port
+      port: 8888
+      nodePort: 30888
+      targetPort: 8888
+  selector:
+    app: phone-book-2
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: phone-book-set-2
+  namespace: phone-book-namespace
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  selector:
+    matchLabels:
+      app: phone-book-2
+  serviceName: "phone-book-2"
+  replicas: 1
+  minReadySeconds: 60
+  template:
+    metadata:
+      labels:
+        app: phone-book-2
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: phone-book-2
+        image: vincafd/phone-book:v3
+        ports:
+        - containerPort: 8888
+          name: web
+        volumeMounts:
+        - name: data
+          mountPath: /mnt/data
+        readinessProbe:
+          httpGet:
+            path: /api/v1/phonebook?from=100&to=200
+            port: 8888
+          initialDelaySeconds: 15
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 1
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "my-storage-class-3"
+      resources:
+        requests:
+          storage: 200Mi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: phone-book-set-3
+  namespace: phone-book-namespace
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  selector:
+    matchLabels:
+      app: phone-book-2
+  serviceName: "phone-book-2"
+  replicas: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: phone-book-2
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+      - name: phone-book-2
+        image: vincafd/phone-book:v3
+        ports:
+        - containerPort: 8888
+          name: web
+        volumeMounts:
+        - name: data
+          mountPath: /mnt/data
+        readinessProbe:
+          httpGet:
+            path: /api/v1/phonebook?from=100&to=200
+            port: 8888
+          initialDelaySeconds: 15
+          periodSeconds: 1
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 1
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "my-storage-class-4"
+      resources:
+        requests:
+          storage: 200Mi
