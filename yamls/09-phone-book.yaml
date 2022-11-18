@@ -22,7 +22,7 @@ ports:
     port: 8888
 endpoints:
   - addresses:
-    - "phone-book-service-2.phone-book-namespace"
-    - "phone-book-service.phone-book-namespace"
+      - "phone-book-service-2.phone-book-namespace.svc.cluster.local"
+      - "phone-book-service.phone-book-namespace.svc.cluster.local"
     conditions:
       ready: true
