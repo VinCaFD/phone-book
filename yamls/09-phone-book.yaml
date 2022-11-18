@@ -24,6 +24,5 @@ endpoints:
   - addresses:
       - "phone-book-service-2.phone-book-namespace.svc.cluster.local"
       - "phone-book-service.phone-book-namespace.svc.cluster.local"
-      - "10-1-0-97.phone-book-service.phone-book-namespace.svc.cluster.local"
     conditions:
       ready: true
