@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: global-phone-book-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: global-phone-book-service-1
+  labels:
+    kubernetes.io/service-name: global-phone-book-service
+addressType: FQDN
+ports:
+  - name: 'global-phone-book-port'
+    appProtocol: http
+    protocol: TCP
+    port: 8888
+endpoints:
+  - addresses:
+      - "phone-book-service-2.phone-book-namespace.svc.cluster.local"
+      - "phone-book-service.phone-book-namespace.svc.cluster.local"
