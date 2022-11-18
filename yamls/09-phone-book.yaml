@@ -24,5 +24,6 @@ endpoints:
   - addresses:
     - "phone-book-service-2.phone-book-namespace.svc.cluster.local"
     - "phone-book-service.phone-book-namespace.svc.cluster.local"
+    - "www.google.com"
     conditions:
       ready: true
